@@ -1,6 +1,6 @@
 lang: "zh-CN"
-siteTitle: "AION2 互动地图"
-announcement: "我们更新了天族地图的地区划分，该功能还在测试，如果有点位被划分入了错误的区域，请联系我们，谢谢！"
+siteTitle: "AION2\n互动地图"
+announcement: ""
 
 language:
   label: "语言"
@@ -18,6 +18,12 @@ ui:
   save: "保存"
   upload: "上传"
   submit: "提交"
+  update: "更新"
+  edit: "编辑"
+  confirmDelete: "你确定要删除吗？"
+  clear: "清除"
+  noData: "暂无数据"
+  add: "添加"
 
 auth:
   login: "登录"
@@ -59,6 +65,65 @@ menu:
   expand: "展开"
   collapse: "收起"
   showBorders: "显示地区边界"
+  hideUserMarkers: "隐藏自定义标点"
+  switchLanguage: "切换语言"
+  switchTheme: "切换主题"
+  showCategory: "显示全部"
+  hideCategory: "隐藏全部"
+  donate: "赞助我们"
+  contact: "联系我们"
+
+routes:
+  map: "地图"
+  class: "职业BD"
+  crafting: "装备制作"
+  enhancement: "装备强化"
+  character: "角色数据"
+  leaderboard: "🎉神器排行榜"
+  forum: "论坛"
+
+leaderboard:
+  artifactRegionRanking: "神器占比大区排名"
+  realtimeArtifactRatio: "实时神器占比"
+  refreshedAgo: "{{time}}前刷新"
+  refreshIn: "{{time}}后刷新"
+  inContention: "数据待上传"
+  rank: "排名"
+  artifactCount: "神器数量"
+  totalArtifacts: "总计神器"
+  seasonN: "第{{n}}赛季"
+  matchingN: "第{{n}}次匹配"
+  artifactState:
+    title: "神器数据"
+    uploadTime: "上传时间"
+    recordTime: "占领日期"
+    countdownMode: "倒计时模式"
+    countdown: "倒计时"
+    disabledTime: "倒计时开始时间"
+    light: "天"
+    dark: "魔"
+    isVerified: "已验证"
+    contributors: "贡献者"
+    create: "创建神器数据"
+    update: "更新神器数据"
+    save: "保存"
+    cancel: "取消"
+    verify: "验证"
+    loginToSubmit: "登录以提交数据"
+    timeFixedNote: "时间固定为 {{time}} (当地时间)"
+    validationError: "创建/编辑失败，两条数据至少间隔48小时"
+  options: "选项"
+  deleteConfirm: "你确定要删除这条记录吗？"
+  artifactAdmins: "神器管理员"
+  addArtifactAdmin: "添加神器管理员"
+  providedBy: "信息由 <emph>{{username}}</emph> 提供"
+  submitData: "点击提交数据"
+  pin: "置顶"
+  share: "分享"
+
+wip:
+  title: "此页面正在建设中！"
+  content: "我们正在努力为您带来此功能，请稍后再试。"
 
 buttons:
   apply: "应用"
@@ -68,8 +133,10 @@ buttons:
 
 errors:
   unknown: "发生未知错误。"
-  network: "网络连接错误。"
+  network: "网络错误，请检查网络连接并重试。"
   notFound: "资源未找到。"
+  uploadFailed: "上传失败，请重试。"
+
 
 markerActions:
   markCompleted: "标记为已完成"
@@ -82,41 +149,50 @@ markerActions:
   name: "名称"
   description: "详情"
   local: "本地标点"
-  feedback: "贡献标点"
+  feedback: "反馈标点"
+  uploaded: "已上传标点"
   cannotDeleteUploaded: "已上传的标点不能删除"
   loginRequired: "登录后可以上传标点"
+  image: "图片"
+  search: "输入宠物、点位名称或描述"
+  searchCount: "{{count}}个搜索结果"
+  position: "坐标"
+  providedBy: "该点位由 <emph>{{contributor}}</emph> 提供"
+  inputPosition: "跳转至已输入坐标"
+  status: "审核状态"
+  reply: "审核回复"
+  pending: "审核中"
+  accepted: "已接受"
+  rejected: "已拒绝"
+  revision: "请修改"
+  deleted: "已删除"
 
 introModal:
-  alert: "我们承诺本网站将 **永久免费开放**、我们不会在任何平台进行交易售卖，请大家**提高警惕，谨防受骗**！"
+#  alert: "我们承诺本网站将 **永久免费开放**、我们不会在任何平台进行交易售卖，请大家**提高警惕，谨防受骗**！"
+  alert: "我们承诺本网站将 **永久免费开放**"
   version: "版本"
   title: "欢迎来到 AION2 互动地图"
   body: |-
     网站由 **苏烟攻略组** 搭建与维护。我们承诺本网站将 **永久免费开放**，日常运营完全依靠 **自愿赞助** 支撑。我们不会在任何平台对本网站进行交易售卖、收取费用等活动（比如：咸鱼、淘宝、抖音），请大家提高警惕，谨防受骗！如果你是花钱购买的本网站，请及时退款并举报商家。若遇到冒充者发布假冒内容，还请协助 **举报**，非常感谢！
       
-    本站开发者（**双酿**）是开源社区的坚定支持者与贡献者。本站全部代码与资源均以 **GNU GPL 协议** 开源发布：https://github.com/aion2-interactive-map/aion2-interactive-map。
+    本站开发者（**双酿**）是开源社区的坚定支持者与贡献者。本站全部代码以 **GNU GPL 3.0 协议** 开源发布，全部资源以 **CC BY-NC 4.0 协议** 开源发布：https://github.com/aion2-interactive-map/aion2-interactive-map
 
-    如任何个人或组织 **违反 GPL 协议**，以任何形式（包括免费或付费）分发本网站代码或资源，我们将 **保留追究其法律责任的一切权利**。
-
-    ### 交流与联系方式
-
-    - **永恒之塔 2 交流群：** 246681864  
-    - **广告位招商：** 微信 **Suyn77**
-    - **点位分享及 bug 反馈：** 微信 **ybq1385**、**a18543910451**
-    - **24 小时代肝、主支线、天神痕迹、问号副本等全部项目：** 微信 **zxcvbnmkiujhy**  
-
-    ### 若地图无法正常加载
-
-    可能是服务器压力过大导致。可尝试将右上角的 **在线版本（云图标）** 切换为 **离线版本** 使用，但离线数据更新可能略有延迟。
-
+    如任何个人或组织 **违反 GPL 或 CC BY-NC 协议**，以任何形式（包括免费或付费）分发本网站代码或资源，我们将 **保留追究其法律责任的一切权利**。
+    
     ### 工作组成员
 
     **苏烟、双酿、物语、阡陌夕晨、小海、言本卿、粥棵儿、落花千树、Marry、焦糖云朵大麦茶、煎饺**
+    
+    ### 交流与联系方式
 
-    ### 特别感谢以下热心支持的小伙伴
+    1. 永恒之塔 2 交流群： ①群 246681864（已满）、②群 197791140（已满）、③群 791286881
+    2. 广告位招商：微信 liuyh615
+    3. 点位分享及 bug 反馈： 微信 a18543910451
+    4. 永恒之塔2高效代肝代打强化（**韩服不接**）：微信/QQ 1506162781
 
-    **笛声青案梦长安、不知水玄月、次不次薯条ono、饭特稀、澜芳华、阿姐收手吧、魔1–汐见琴音、11111、地对地导弹**
+donateModal:
+  body: "游戏攻略网站维护需要大量时间和精力，如果想要支持我们，可以通过下面的支付宝二维码，你的小小心意是支持我们的动力"
 
-  hint: "游戏攻略网站维护需要大量时间和精力，如果想要支持我们，可以通过下面的支付宝二维码，你的小小心意是支持我们的动力"
 
 rightSidebar:
   members:
@@ -125,10 +201,59 @@ rightSidebar:
   contact:
     title: "交流与联系方式"
     content: |
-      1. 永恒之塔 2 交流群： ①群 246681864（已满）、②群 197791140（已满）、③群 791286881
+      1. 永恒之塔 2 交流群：  
+         ①群 246681864  
+         ②群 197791140  
+         ③群 791286881  
       2. 广告位招商：微信 liuyh615
-      3. 点位分享及 bug 反馈： 微信 a18543910451
-      4. 永恒之塔2高效代肝代打强化（**韩服不接**）：微信/QQ 1506162781
+      3. 永恒之塔2代肝代打、高难副本圣谕、装备制作及强化（**韩服不接**）：Suyn77（微信）
   donation:
     title: "赞助"
     content: "游戏攻略网站维护需要大量时间和精力，如果想要支持我们，可以通过下面的支付宝二维码，你的小小心意是支持我们的动力"
+
+crafting:
+  select: "选择要替换的装备"
+  selectClick: "点击选择装备"
+  sumType: "合计："
+  sumTotal: "总计："
+  weaponOrArmor: "武器/防具"
+  accessory: "饰品"
+  clearAll: "一键清除全部"
+  unitPrice: "单个价格"
+
+server:
+  light: "天族"
+  dark: "魔族"
+  lightAbbr: "天"
+  darkAbbr: "魔"
+  allServers: "全部服务器"
+  race: "种族"
+  server: "服务器"
+  character: "角色名"
+  region: "运营商"
+  tw: "台服"
+  kr: "韩服"
+  search: "搜寻角色"
+  history: "查询历史"
+  starred: "收藏角色"
+  searching: "搜索角色中..."
+  noResults: "未查询到和 \"{{keyword}}\" 有关的角色"
+
+race:
+  light: "天族"
+  dark: "魔族"
+  lightAlt: "西部"
+  darkAlt: "东部"
+  lightShare: "西部阵营"
+  darkShare: "东部阵营"
+
+skills:
+  category:
+    active: 主动
+    passive: 被动
+    dp: 烙印
+
+titles:
+  Attack: 攻击系列
+  Defense: 防御系列
+  Etc: 其他系列

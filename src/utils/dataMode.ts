@@ -33,6 +33,13 @@ export function computeBaseUrl(): string {
   return "/api/v1";
 }
 
+export function computeWsUrl(): string {
+  const base = computeBaseUrl();
+  if (base.startsWith("https://")) return base.replace("https://", "wss://");
+  if (base.startsWith("http://")) return base.replace("http://", "ws://");
+  return base;
+}
+
 export function computeExportBaseUrl(mode: DataMode): string {
   if (mode === "static") {
     return getStaticBaseUrl();
@@ -48,12 +55,12 @@ export function getBackendLoadPath(mode: DataMode = DEFAULT_DATA_MODE) {
     const lng = lngs[0];
     const ns = nss[0];
 
-    if (ns === "common") {
-      return `${staticBase}/locales/${lng}/${ns}.yaml?build=${__BUILD_GIT_COMMIT__}`;
-    } else if (ns === "regions") {
+    if (ns === "regions" || ns === "servers") {
       return "";
     }
-
-    return `${base}/locales/${lng}/${ns}.yaml?build=${__BUILD_GIT_COMMIT__}`;
+    if (ns.startsWith("markers") || ns.startsWith("regions") || ns === "maps" || ns === "types") {
+      return `${base}/locales/${lng}/${ns}.yaml?build=${__BUILD_GIT_COMMIT__}`;
+    }
+    return `${staticBase}/locales/${lng}/${ns}.yaml?build=${__BUILD_GIT_COMMIT__}`;
   };
 }

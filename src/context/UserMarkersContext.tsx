@@ -6,9 +6,10 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { v4 as uuidv4 } from "uuid";
-import type { UserMarkerInstance } from "@/types/game";
-import { useGameMap } from "@/context/GameMapContext.tsx";
+import {v4 as uuidv4} from "uuid";
+import {keyBy} from "lodash";
+import type {UserMarkerInstance} from "@/types/game";
+import {useGameMap} from "@/context/GameMapContext.tsx";
 import {useUser} from "@/context/UserContext.tsx";
 
 type ContextValue = {
@@ -16,6 +17,7 @@ type ContextValue = {
   setPickMode: (v: boolean) => void;
 
   userMarkers: UserMarkerInstance[];
+  userMarkersByMarkerId: Record<string, UserMarkerInstance>;
 
   createMarker: (x: number, y: number) => void;
   createMarkerRemote: (marker: UserMarkerInstance) => void;
@@ -24,6 +26,9 @@ type ContextValue = {
 
   editingMarker: UserMarkerInstance | null;
   setEditingMarker: (m: UserMarkerInstance | null) => void;
+
+  hideUserMarkers: boolean;
+  setHideUserMarkers: (value: boolean) => void;
 };
 
 const STORAGE_PREFIX = "aion2.userMarkers.v1.";
@@ -33,13 +38,15 @@ const UserMarkersContext = createContext<ContextValue | null>(null);
 export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
                                                                                children,
                                                                              }) => {
-  const { selectedMap } = useGameMap();
+  const {selectedMap} = useGameMap();
 
   const [pickMode, setPickMode] = useState(false);
   const [userMarkers, setUserMarkers] = useState<UserMarkerInstance[]>([]);
+  const [userMarkersByMarkerId, setUserMarkersByMarkerId] = useState<Record<string, UserMarkerInstance>>({});
   const [editingMarker, setEditingMarker] =
     useState<UserMarkerInstance | null>(null);
-  const { fetchWithAuth } = useUser();
+  const {fetchWithAuth} = useUser();
+  const [hideUserMarkers, setHideUserMarkers] = useState<boolean>(false);
 
   /** Helper: storage key per map */
   const getStorageKey = useCallback(
@@ -55,13 +62,17 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
         setEditingMarker(null);
         return;
       }
-      
+
       const markers = new Map<string, UserMarkerInstance>();
       try {
         const raw = localStorage.getItem(getStorageKey(selectedMap.name));
         if (raw) {
           const results = JSON.parse(raw);
-          results.forEach((marker: UserMarkerInstance) => markers.set(marker.id, marker));
+          results.forEach((marker: UserMarkerInstance) => {
+            if (marker.type === "local") {
+              markers.set(marker.id, marker)
+            }
+          });
         }
       } catch (e) {
         console.error(e);
@@ -82,13 +93,17 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
             data.data.results.forEach((result: any) => {
               const marker: UserMarkerInstance = {
                 id: result.id,
+                markerId: result.markerId,
                 subtype: result.subtypeId,
                 mapId: result.mapId,
                 x: result.x,
                 y: result.y,
                 name: result.name,
                 description: result.description,
-                type: "uploaded",
+                image: result.image?.s3Key || "",
+                type: result.type === "create" ? "uploaded" : "feedback",
+                status: result.status,
+                reply: result.reply,
               }
               markers.set(marker.id, marker);
             })
@@ -98,19 +113,20 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
         console.error(e);
       }
 
-      setUserMarkers([...markers.values()]);
-
+      const markersArray = [...markers.values()]
+      setUserMarkers(markersArray);
+      setUserMarkersByMarkerId(keyBy(markersArray.filter(marker => marker.type === "feedback"), "markerId"));
     }
     load();
 
-  }, [selectedMap, getStorageKey]);
+  }, [selectedMap, getStorageKey, fetchWithAuth]);
 
   /** 💾 Persist markers for current map only */
   useEffect(() => {
     if (!selectedMap) return;
     localStorage.setItem(
       getStorageKey(selectedMap.name),
-      JSON.stringify(userMarkers),
+      JSON.stringify(userMarkers.filter(marker => marker.type === "local")),
     );
   }, [userMarkers, selectedMap, getStorageKey]);
 
@@ -120,13 +136,16 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const marker: UserMarkerInstance = {
         id: uuidv4(),
+        markerId: "",
         subtype: "",
         mapId: selectedMap.id,
         x,
         y,
         name: "",
         description: "",
+        image: "",
         type: "local",
+        localType: "fox",
       };
 
       setUserMarkers((prev) => [...prev, marker]);
@@ -137,8 +156,12 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const createMarkerRemote = useCallback(
-    (marker: UserMarkerInstance)=> {
+    (marker: UserMarkerInstance) => {
       setUserMarkers((prev) => [...prev, marker]);
+      setUserMarkersByMarkerId((prev) => ({
+        ...prev,
+        [marker.markerId]: marker,
+      }));
     },
     [],
   );
@@ -147,6 +170,10 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
     setUserMarkers((prev) =>
       prev.map((m) => (m.id === marker.id ? marker : m)),
     );
+    setUserMarkersByMarkerId((prev) => ({
+      ...prev,
+      [marker.markerId]: marker,
+    }));
   }, []);
 
   const deleteMarker = useCallback((id: string) => {
@@ -154,18 +181,25 @@ export const UserMarkersProvider: React.FC<{ children: React.ReactNode }> = ({
     setEditingMarker(null);
   }, []);
 
+  // const getUserMarkerById = useCallback((markerId: string) => {
+  //   return userMarkersByMarkerId[markerId] || null;
+  // }, []);
+
   return (
     <UserMarkersContext.Provider
       value={{
         pickMode,
         setPickMode,
         userMarkers,
+        userMarkersByMarkerId,
         createMarker,
         createMarkerRemote,
         updateMarker,
         deleteMarker,
         editingMarker,
         setEditingMarker,
+        hideUserMarkers,
+        setHideUserMarkers,
       }}
     >
       {children}

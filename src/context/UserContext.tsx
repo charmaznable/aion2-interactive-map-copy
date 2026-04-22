@@ -15,11 +15,13 @@ export type User = {
   id: string;
   email: string;
   name?: string;
+  isSuperuser?: boolean;
   // roles?: string[];
 };
 
 export type UserContextValue = {
   user: User | null;
+  isSuperUser: boolean;
   token: string | null;
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string, name: string, altchaValue: string) => Promise<boolean>;
@@ -137,6 +139,9 @@ export function UserProvider({children}: { children: ReactNode }) {
       if (!res.ok) throw new Error("Failed retrieving session");
 
       const data = await res.json();
+      if (!data.id) {
+        throw new Error("Invalid user data: missing id");
+      }
       setUser(data);
 
     } catch (err) {
@@ -157,7 +162,7 @@ export function UserProvider({children}: { children: ReactNode }) {
 
   return (
     <UserContext.Provider value={{
-      user, token, login, logout, register,
+      user, isSuperUser: !!user?.isSuperuser, token, login, logout, register,
       fetchWithAuth, refreshUser,
       userModalMode, setUserModalMode,
       userModalOpen, setUserModalOpen,

@@ -1,5 +1,5 @@
 lang: "en"
-siteTitle: "AION2 Interactive Map"
+siteTitle: "AION2\nInteractive Map"
 announcement: "200 monolith positions for in Abyss updated, screenshots will be added later."
 
 language:
@@ -14,6 +14,8 @@ ui:
   close: "Close"
   loading: "Loading..."
   search: "Search"
+  noData: "No Data"
+  add: "Add"
 
 theme:
   auto: "Auto (Change with Map)"
@@ -32,6 +34,51 @@ menu:
   hideAllMarkers: "Hide all"
   clearMarkerCompleted: "Clear completed"
   clearMarkerCompletedBody: "Do you want to clear all completed marker in this map?"
+
+routes:
+  map: "Map"
+  class: "Classes"
+  crafting: "Crafting"
+  enhancement: "Enhancement"
+  character: "Character"
+  leaderboard: "Leaderboard"
+  forum: "Forum"
+
+leaderboard:
+  artifactRegionRanking: "Artifact Proportion Region Ranking"
+  realtimeArtifactRatio: "Real-time Artifact Proportion"
+  refreshedAgo: "Refreshed {{time}} ago"
+  refreshIn: "Refresh in {{time}}"
+  inContention: "Pending Upload"
+  rank: "Rank"
+  artifactCount: "Artifacts"
+  totalArtifacts: "Total"
+  seasonN: "Season {{n}}"
+  matchingN: "Matching {{n}}"
+  artifactState:
+    title: "Artifact Data"
+    uploadTime: "Upload Time"
+    recordTime: "Capture Date"
+    countdown: "Countdown"
+    disabledTime: "Countdown Start Time"
+    light: "Light"
+    dark: "Dark"
+    isVerified: "Verified"
+    contributors: "Contributors"
+    create: "Create Artifact Data"
+    update: "Update Artifact Data"
+    save: "Save"
+    cancel: "Cancel"
+    verify: "Verify"
+    loginToSubmit: "Login to submit"
+    timeFixedNote: "Time is fixed to {{time}} (local time)"
+    validationError: "Create/Edit failed, at least 48 hours between two records."
+  providedBy: "Provided by <emph>{{username}}</emph>"
+  artifactAdmins: "Artifact Admins"
+  addArtifactAdmin: "Add Artifact Admin"
+  submitData: "Click to submit data"
+  pin: "Pin"
+  share: "Share"
 
 buttons:
   apply: "Apply"
@@ -91,3 +138,7 @@ rightSidebar:
       2. **Bug reports & marker sharing**: please contact via Discord
       3. **Advertisement inquiries**: please contact via Discord
       4. For the latest Aion 2 news and active discussions, check out the Aion 2 Global Discord – **the biggest Aion 2's community** we’re happy to collaborate with: https://discord.gg/aion2global
+
+race:
+  light: "Elyos"
+  dark: "Asmodian"
